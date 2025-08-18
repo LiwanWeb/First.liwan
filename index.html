@@ -430,7 +430,7 @@
 <body>
   <header>
     <div class="logo">    
-      <a href="https://uaeliwan.com/" target="_self">
+      <a href="#"  onclick="location.reload();" target="_self">
           <img src="logo.png" alt="لـيــوان" style="height:90px; vertical-align:middle;">
       </a>
   </div>
@@ -440,6 +440,7 @@
     </div>
     <nav>
       <button class="btn" onclick="history.back()">رجوع</button>
+      
   </nav>
   
 </header>
@@ -722,27 +723,25 @@
     <canvas id="canvas"></canvas>
 </div>
 
+
+
 <script>
-  window.addEventListener("load", function() {
-    // نتحقق إذا عملنا ريفرش من قبل
-    let refreshCount = sessionStorage.getItem("refreshCount") || 0;
-    refreshCount = parseInt(refreshCount);
+  const downloadBtn = document.getElementById('download-btn');
 
-    if (refreshCount < 1) { 
-      // نزيد العداد
-      sessionStorage.setItem("refreshCount", refreshCount + 1);
+  downloadBtn.addEventListener('click', () => {
+    // تغيير النص واللون
+    downloadBtn.textContent = "تم التنزيل ✅";
+    downloadBtn.style.setProperty('--btn-color', '#0f1010');
+    downloadBtn.style.setProperty('--btn-color-dark', '#0f1010');
 
-      // نسوي ريفرش
-      setTimeout(() => {
-        location.reload();
-      }, 1500);
-    } else {
-      // بعد ما يخلص مرتين، نوقف ونصفر العداد
-      sessionStorage.removeItem("refreshCount");
-    }
+    // بعد ثانيتين يرجع طبيعي
+    setTimeout(() => {
+      downloadBtn.textContent = "تحميل الصورة النهائية ";
+      downloadBtn.style.setProperty('--btn-color', '#9a7a40');
+      downloadBtn.style.setProperty('--btn-color-dark', '#0f1010');
+    }, 2000);
   });
 </script>
-
 
 <script>
 
@@ -927,29 +926,22 @@ function swapColors() {
     }
 
     function renderFinal() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // رسم الصورة الأولى
-  if (tintedPixels1) {
-    let tempCanvas1 = document.createElement('canvas');
-    tempCanvas1.width = canvas.width;
-    tempCanvas1.height = canvas.height;
-    tempCanvas1.getContext('2d').putImageData(tintedPixels1, 0, 0);
-    ctx.drawImage(tempCanvas1, 0, 0);
-  }
-
-  // رسم الصورة الثانية بنفس حجم الصورة الأولى
-  if (tintedPixels2) {
-    let tempCanvas2 = document.createElement('canvas');
-    tempCanvas2.width = canvas.width;
-    tempCanvas2.height = canvas.height;
-    tempCanvas2.getContext('2d').putImageData(tintedPixels2, 0, 0);
-
-    // نرسم الصورة الثانية لتغطية كل canvas
-    ctx.drawImage(tempCanvas2, 0, 0, canvas.width, canvas.height);
-  }
-}
-
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (tintedPixels1) {
+        let tempCanvas1 = document.createElement('canvas');
+        tempCanvas1.width = canvas.width;
+        tempCanvas1.height = canvas.height;
+        tempCanvas1.getContext('2d').putImageData(tintedPixels1, 0, 0);
+        ctx.drawImage(tempCanvas1, 0, 0);
+      }
+      if (tintedPixels2) {
+        let tempCanvas2 = document.createElement('canvas');
+        tempCanvas2.width = canvas.width;
+        tempCanvas2.height = canvas.height;
+        tempCanvas2.getContext('2d').putImageData(tintedPixels2, 0, 0);
+        ctx.drawImage(tempCanvas2, 0, 0);
+      }
+    }
 </script>
 
 </body>
